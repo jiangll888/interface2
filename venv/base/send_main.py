@@ -2,6 +2,7 @@ from base.send_request import SendRequest
 from config.dataconfig import DataConfig
 from base.opera_cookie import OperaCookie
 from base.depend_data import DependData
+from util.compare import Compare
 import json
 
 class SendMain:
@@ -36,7 +37,8 @@ class SendMain:
                 res = sr.send_request(self.method, self.url, self.request_data, self.header)
             if self.is_write:
                 oc.write_cookie(res)
-            return res.json()
+            cmp = Compare()
+            return cmp.compare(self.expect,res.json())
 
 if __name__ == "__main__":
     #data = {'case_id': 'qingguo_login', 'case_name': '登录', 'url': 'http://study-perf.qa.netease.com/common/fgadmin/login', 'method': 'post', 'header_info': '{"is_write":"true","header":{"Content-Type": "application/json"}}', 'params': '{"phoneArea":"86","phoneNumber":"20000000000","password":"netease123"}', 'is_run': 1, 'depend_case_id': None, 'depend_request_field': None, 'depend_response_field': None, 'expect': "{'message': 'success', 'code': 200}", 'result': 'pass'}

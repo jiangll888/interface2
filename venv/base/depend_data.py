@@ -1,4 +1,4 @@
-from util.opera_db import OperaDB
+from util.opera_db import OperationDB
 from config.dataconfig import DataConfig
 from config import settings
 from base.send_request import SendRequest
@@ -8,7 +8,7 @@ import json
 
 class DependData:
     def __init__(self,data,table_name=settings.TABLE_NAME):
-        self.db = OperaDB(settings.DB_HOST, settings.DB_USER, settings.DB_PASSWD, settings.DB_NAME)
+        self.db = OperationDB()
         self.data = data
         self.table_name = table_name
 
@@ -32,7 +32,7 @@ class DependData:
         '''
         depend_case_id = self.get_case_id()
         sql = "select * from "+ self.table_name +" where case_id=%s;"
-        return depend_case_id and self.db.get_one(sql,depend_case_id)
+        return depend_case_id and self.db.search_one(sql,depend_case_id)
 
     def get_field(self):
         '''

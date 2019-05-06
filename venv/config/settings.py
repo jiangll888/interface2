@@ -14,8 +14,10 @@ DEPEND_RESPONSE_FIELD = "depend_response_field"
 EXPECT = "expect"
 RESULT = "result"
 
+DB_TYPE = "mysql"
 DB_HOST = "127.0.0.1"
 DB_USER = "root"
 DB_PASSWD = "122901"
+DB_PORT = 3306
 DB_NAME = "testing"
 TABLE_NAME = "`cases`"

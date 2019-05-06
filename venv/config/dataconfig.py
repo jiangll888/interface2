@@ -1,13 +1,13 @@
 from util import opera_db
 from config import settings
-from util.opera_db import OperaDB
+from util.opera_db import OperationDB
 import json
 
 class DataConfig:
 
     def __init__(self,data):
         self.db_data = data
-        self.op_db = OperaDB(settings.DB_HOST,settings.DB_USER,settings.DB_PASSWD,settings.DB_NAME)
+        self.op_db = OperationDB()
 
     def get_case_id(self):
         return self.db_data and self.db_data[settings.CASE_ID]
@@ -70,7 +70,7 @@ class DataConfig:
         return self.db_data and self.db_data[settings.RESULT]
 
     def write_result(self,sql,param):
-        self.op_db.dml(sql,param)
+        self.op_db.sql_DML(sql,param)
 
 if __name__ == "__main__":
     # d = {1:'a',3:4}
@@ -78,10 +78,10 @@ if __name__ == "__main__":
     # r = d and d[1]
     # print(r)
     # print(settings.CASE_ID)
-    db = OperaDB(settings.DB_HOST,settings.DB_USER,settings.DB_PASSWD,settings.DB_NAME)
+    db = OperationDB()
     sql = "select * from cases where case_id=%s"
     pa = ("qingguo_006",)
-    data = db.get_one(sql,pa)
+    data = db.search_one(sql,pa)
     print(type(data))
     d = DataConfig(data)
     #r = d.get_header_info()
@@ -90,5 +90,3 @@ if __name__ == "__main__":
     sql1 = "update cases set result=%s where case_id=%s"
     para1 = ("pass","qingguo_login")
     d.write_result(sql1,para1)
-
-

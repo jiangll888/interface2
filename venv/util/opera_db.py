@@ -2,8 +2,10 @@
 import cx_Oracle
 import pymysql
 from config import  settings
+import threading
 
 class OperationDB:
+    _instance_lock = threading.Lock()
 
     def __init__(self,db_type=settings.DB_TYPE,username=settings.DB_USER,passwd=settings.DB_PASSWD,host=settings.DB_HOST,port=settings.DB_PORT,ins_name=settings.DB_NAME):
         self.db_type = db_type
@@ -24,6 +26,20 @@ class OperationDB:
             )
         # 创建游标
         self.cur = self.db.cursor()
+
+    def __new__(cls, *args, **kwargs):
+        '''
+        实现单例模式
+        :param args:
+        :param kwargs:
+        :return:
+        '''
+        if not hasattr(cls,"_instance"):
+            with cls._instance_lock:
+                if not hasattr(cls, "_instance"):
+                    cls._instance = super().__new__(cls)
+        return cls._instance
+
     #获取一条数据
     def search_one(self,sql,param=None):
         self.cur.execute(sql,param)
@@ -64,7 +80,7 @@ class OperationDB:
 
 if __name__ == '__main__':
     opera_db = OperationDB('mysql','root','122901','127.0.0.1',3306,'testing')
-    res = opera_db.search_all("select chrome_result from `ui_cases`;")
+    res = opera_db.search_all("select chrome_result from `cases`;")
     # res = opera_db.search_one("select user_name,telphone,source,status from t_activity_order WHERE source='PAWH'" )
     print(res)
     print([r["chrome_result"] for r in res])

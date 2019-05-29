@@ -34,10 +34,9 @@ class Compare:
                 return False
 
     def compare(self,expect,result):
-        if "{" not in expect:
+        if isinstance(expect,str):
             return self.str_cmp(expect,result)
         else:
-            expect = json.loads(expect)
             return self.dict_partial_cmp(expect,result)
 
 if __name__ == "__main__":

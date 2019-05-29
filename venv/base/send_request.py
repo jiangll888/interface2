@@ -16,17 +16,17 @@ class SendRequest:
             res = requests.get(url=url,params=data)
         return res
 
-    def send_post(self,url,data,header=None,cookie=None):
+    def send_post(self,url,data,file=None,param=None,header=None,cookie=None):
         #解决请求中有中文之后截断的问题
         data = data.encode(encoding="utf-8")
         if cookie and header:
-            res = requests.post(url=url,data=data,headers=header,cookies=cookie)
+            res = requests.post(url=url,data=data,files=file,params=param,headers=header,cookies=cookie)
         elif cookie and not header:
-            res = requests.post(url=url,data=data,cookies=cookie)
+            res = requests.post(url=url,data=data,files=file,params=param,cookies=cookie)
         elif not cookie and header:
-            res = requests.post(url=url,data=data,headers=header)
+            res = requests.post(url=url,data=data,files=file,params=param,headers=header)
         else:
-            res = requests.post(url=url,data=data)
+            res = requests.post(url=url,data=data,files=file,params=param)
         return res
 
     def send_put(self,url,data,header=None,cookie=None):
@@ -55,11 +55,11 @@ class SendRequest:
             res = requests.delete(url=url,data=data)
         return res
 
-    def send_request(self,method,url,data=None,header=None,cookie=None):
+    def send_request(self,method,url,data=None,file=None,param=None,header=None,cookie=None):
         if method.lower() == "get":
             res = self.send_get(url=url,data=data,header=header,cookie=cookie)
         elif method.lower() == "post":
-            res = self.send_post(url=url,data=data,header=header,cookie=cookie)
+            res = self.send_post(url=url,data=data,file=file,param=file,header=header,cookie=cookie)
         elif method.lower() == "put":
             res = self.send_put(url=url,data=data,header=header,cookie=cookie)
         else:

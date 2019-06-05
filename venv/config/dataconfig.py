@@ -16,7 +16,7 @@ class DataConfig:
         return self.db_data and self.db_data[settings.CASE_NAME]
 
     def get_url(self):
-        return self.db_data and self.db_data[settings.URL]
+        return self.db_data and settings.BASE_URL + self.db_data[settings.URL]
 
     def get_method(self):
         return self.db_data and self.db_data[settings.METHOD]
@@ -58,7 +58,7 @@ class DataConfig:
     def get_data(self):
         params = self.get_params()
         if params and settings.DATA in params:
-            return json.dumps(params[settings.DATA])
+            return params[settings.DATA]
         else:
             return None
 

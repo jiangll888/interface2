@@ -27,6 +27,8 @@ DB_PORT = 3306
 DB_NAME = "testing"
 TABLE_NAME = "`cases`"
 
+BASE_URL = "http://study-perf.qa.netease.com"
+
 TEST_CASE_SQL = "select * from {};".format(TABLE_NAME)
 CLEAR_RESULT_SQL = "update {} set {}='';".format(TABLE_NAME,RESULT)
 UPDATE_RESULT_SQL = "update {} set {}=%s where {}=%s;".format(TABLE_NAME,RESULT,CASE_ID)

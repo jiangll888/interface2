@@ -15,7 +15,7 @@ class DependData:
         '''获取当前case的数据'''
         data_config = DataConfig(self.data)
         params = data_config.get_data()
-        return json.loads(params)
+        return params
 
     def get_case_id(self):
         '''
@@ -124,15 +124,7 @@ class DependData:
                 else:
                     for i in range(len(fields)):
                         params[fields[i]] = response_fields_list[num][i]  #fields是参数的数组，需要与返回参数的数组顺序一致
-        return params and json.dumps(params)
-
-    def handle_depend_data(self):
-        if self.get_case_id():
-            params = self.replace_request_data()
-            return params and json.dumps(params)
-        else:
-            params = self.get_request_data()
-            return params and json.dumps(params)
+        return params
 
 if __name__ == "__main__":
     data = {'case_id': 'qingguo_006', 'case_name': '计算运费', 'url': 'http://study-perf.qa.netease.com/common/getTransportFee', 'method': 'get', 'header_info': '{"cookie":"true","header":{"Content-Type": "application/json"}}', 'params': '{"id":1,"addressDetail":""}', 'is_run': 1, 'depend_case_id': 'qingguo_005', 'depend_request_field': '{"field":"addressDetail","connection":"_"}', 'depend_response_field': 'result.list.[0].province;result.list.[0].city;result.list.[0].area', 'expect': '"message":"success"', 'result': None}

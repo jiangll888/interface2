@@ -7,6 +7,7 @@ from util.compare import Compare
 import json
 import threading
 from config import settings
+from base.handle_value_list_dict import HandleListOrDict
 
 class SendMain:
     _instance_lock = threading.Lock()
@@ -51,6 +52,7 @@ class SendMain:
         if self.is_run:
             if self.depend_case_id:
                 self.request_data = dd.replace_request_data()
+            self.request_data = HandleListOrDict().handle_value(self.request_data)
             if self.has_cookie:
                 cookie = oc.get_cookie()
                 res = sr.send_request(self.method,self.url,self.request_data,self.request_file,self.request_param,self.header,cookie)

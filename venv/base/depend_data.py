@@ -50,6 +50,8 @@ class DependData:
         self.request_data = data_config.get_data()
         self.request_file = data_config.get_file()
         self.depend_case_id = data_config.get_depend_case_id()
+        self.post_action = data_config.get_post_action()
+        self.post_params = data_config.get_post_params()
 
     def send_depend_request(self,depend_case_id):
         '''
@@ -117,14 +119,38 @@ class DependData:
         params = self.get_request_data()
         for num,request_fields in enumerate(request_fields_list):
             if request_fields:
-                fields = request_fields["field"]
+                fields = request_fields["field"].split(";")
                 conn = request_fields["connection"]
-                if conn:
-                    params[fields] = conn.join(response_fields_list[num])
-                else:
-                    for i in range(len(fields)):
-                        params[fields[i]] = response_fields_list[num][i]  #fields是参数的数组，需要与返回参数的数组顺序一致
+                for i in range(len(fields)):
+                    if conn:
+                        params[fields[i]] = conn.join(response_fields_list[num])
+                    #params[fields[i]] = response_fields_list[num][i]  #fields是参数的数组，需要与返回参数的数组顺序一致
+                    else:
+                        field = fields[i].split(".")
+                        params = self.replace_json(params,field,response_fields_list[num][i])
         return params
+
+    #替换json中的value,key值传入list
+    def replace_json(self,data,key,value):
+        if len(key) == 1:
+            data[key[0]] = value
+        else:
+            data[key[0]] = self.replace_json(data[key[0]],key[1:],value)
+        return data
+
+    def post_act(self,case_id,post_prams):
+        if self.case_id:
+            #获取要帮助清理的case的数据
+            self.get_field(case_id)
+            #把数据替换成我们要清理的data数据
+            self.request_data = post_prams
+            sr = SendRequest()
+            sr.send_request(self.method, self.url, self.request_data, self.request_file, self.request_param,
+                                  self.header)
+        while(self.depend_case_id):
+            data_depend = DependData(self.line_data)
+            if data_depend.post_action and self.url != data_depend.post_action:
+                func = getattr(data_depend,)
 
 if __name__ == "__main__":
     data = {'case_id': 'qingguo_006', 'case_name': '计算运费', 'url': 'http://study-perf.qa.netease.com/common/getTransportFee', 'method': 'get', 'header_info': '{"cookie":"true","header":{"Content-Type": "application/json"}}', 'params': '{"id":1,"addressDetail":""}', 'is_run': 1, 'depend_case_id': 'qingguo_005', 'depend_request_field': '{"field":"addressDetail","connection":"_"}', 'depend_response_field': 'result.list.[0].province;result.list.[0].city;result.list.[0].area', 'expect': '"message":"success"', 'result': None}

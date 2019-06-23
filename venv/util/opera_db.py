@@ -80,10 +80,11 @@ class OperationDB:
 
 if __name__ == '__main__':
     opera_db = OperationDB('mysql','root','122901','127.0.0.1',3306,'testing')
-    res = opera_db.search_all("select chrome_result from `cases`;")
+    res = opera_db.search_one("select result from `cases` where case_id='11';")
     # res = opera_db.search_one("select user_name,telphone,source,status from t_activity_order WHERE source='PAWH'" )
+    print("111111111111")
     print(res)
-    print([r["chrome_result"] for r in res])
+    #print([r["result"] for r in res])
     # # res1 = opera_db.makeDictFactory(*res)
     # # print(type(res1))
     # opera_db.close()
@@ -91,3 +92,6 @@ if __name__ == '__main__':
     # b = [[1,2,3],[4,5,6]]
     # r = [dict(z) for z in [(zip(a,data)) for data in b]]
     # print(r)
+    s = "'1'"
+    print(eval(s),type(eval(s)))
+    print(None == None)

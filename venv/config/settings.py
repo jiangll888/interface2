@@ -5,6 +5,7 @@ METHOD = "method"
 HEADER_INFO = "header_info"
 IS_WRITE = "is_write"
 COOKIE = "cookie"
+TOKEN = "token"
 HEADER = "header"
 PARAMS = "params"
 PARAM = "param"
@@ -15,6 +16,7 @@ DEPEND_CASE_ID = "depend_case_id"
 DEPEND_REQUEST_FIELD = "depend_request_field"
 DEPEND_RESPONSE_FIELD = "depend_response_field"
 POST_ACTION = "post_action"
+POST_PARAMS = "post_params"
 EXPECT = "expect"
 EXPECT_SQL = "SQL"
 RESULT = "result"
@@ -28,6 +30,9 @@ DB_NAME = "testing"
 TABLE_NAME = "`cases`"
 
 BASE_URL = "http://study-perf.qa.netease.com"
+
+URL_ENCODE = {"Content-Type":"application/x-www-form-urlencode"}
+URL_RE = "^https?://(\d{1,3}.){3}\d{1,3}:\d{1,5}|^https?://.*com/"
 
 TEST_CASE_SQL = "select * from {};".format(TABLE_NAME)
 CLEAR_RESULT_SQL = "update {} set {}='';".format(TABLE_NAME,RESULT)

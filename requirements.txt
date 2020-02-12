@@ -7,7 +7,7 @@ colorama==0.4.1
 configparser==3.7.1
 ddt==1.2.1
 decorator==4.3.0
-Django==2.1.4
+Django==2.2.10
 idna==2.8
 isort==4.3.4
 jsonpath-rw==1.4.0

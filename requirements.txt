@@ -1,7 +1,7 @@
 Appium-Python-Client==0.36
 astroid==2.1.0
 behave==1.2.6
-certifi==2018.11.29
+certifi==2022.12.7
 chardet==3.0.4
 colorama==0.4.1
 configparser==3.7.1
